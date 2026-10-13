@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "tmm:block/crafting_block"
+    }
+  }
+}

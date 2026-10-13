@@ -1,8 +1,6 @@
 package com.TMM.TooMuchMaterials;
 
 import org.slf4j.Logger;
-
-import com.example.examplemod.ExampleMod;
 import com.mojang.logging.LogUtils;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -35,7 +33,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 @Mod(TooMuchMaterials.MODID)
 public class TooMuchMaterials {
     // Define mod id in a common place for everything to reference
-    public static final String MODID = "TMM";
+    public static final String MODID = "tmm";
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
 
@@ -43,13 +41,13 @@ public class TooMuchMaterials {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
     // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.examplemod")) //The language key for the title of your CreativeModeTab
+    /*/public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("processing", () -> CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.processing")) //The language key for the title of your CreativeModeTab
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> ModBlocks.CRAFTING_BLOCK_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(ModBlocks.CRAFTING_BLOCK_ITEM.get());// Add the example item to the tab. For your own tabs, this method is preferred over the event
-            }).build());
+            }).build());/*/
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
@@ -62,7 +60,9 @@ public class TooMuchMaterials {
         // Register the Deferred Register to the mod event bus so items get registered
         ModBlocks.ITEMS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so tabs get registered
-        CREATIVE_MODE_TABS.register(modEventBus);
+        //CREATIVE_MODE_TABS.register(modEventBus);
+
+        ModTabs.CREATIVE_MODE_TABS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
