@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    "CIC",
+    " C "
+  ],
+  "key": {
+    "I": "minecraft:iron_ingot",
+    "C": "tmm:copper_wire"
+  },
+  "result": {
+    "id": "tmm:electro_magnet_bad",
+    "count": 1
+  }
+}

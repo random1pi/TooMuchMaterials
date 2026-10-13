@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " CC",
+    "LRC",
+    "SSS"
+  ],
+  "key": {
+    "C": "tmm:copper_wire",
+    "R": "tmm:relais",
+    "L": "minecraft:lever",
+    "S": "minecraft:smooth_stone"
+  },
+  "result": {
+    "id": "tmm:circuit_board_lv1",
+    "count": 1
+  }
+}

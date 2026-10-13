@@ -4,5 +4,8 @@
   "itemGroup.tool": "Tools",
   "block.tmm.crafting_block": "Crafting Block",
   "item.tmm.copper_wire": "Copper Wire",
-  "item.tmm.wire_cutter": "Wire Cutter"
+  "item.tmm.wire_cutter": "Wire Cutter",
+  "item.tmm.electro_magnet_bad": "Electro Magnet (Poorly insulated)",
+  "item.tmm.relais": "Relais",
+  "item.tmm.circuit_board_lv1": "Circuit Board Lv.1"
 }

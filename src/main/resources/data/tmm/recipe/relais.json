@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " IC",
+    "CMC",
+    "SSS"
+  ],
+  "key": {
+    "C": "tmm:copper_wire",
+    "M": "tmm:electro_magnet_bad",
+    "S": "minecraft:smooth_stone",
+    "I": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "tmm:relais",
+    "count": 1
+  }
+}

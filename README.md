@@ -1,6 +1,10 @@
 #Concept:
 ---------
-bla
+-hard start, with expensive crafting recipes -> lots of materials->few outcome
+
+-gets progressively easier -> few resources -> lots of outcome
+
+-endgame -> most things are basically free or/and can be duplicated
 
 
 #Early Game

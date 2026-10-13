@@ -17,6 +17,9 @@ public class ModTabs {
             .icon(() -> ModBlocks.COPPER_WIRE.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(ModBlocks.COPPER_WIRE.get());// Add the example item to the tab. For your own tabs, this method is preferred over the event
+                output.accept(ModBlocks.ELECTRO_MAGNET_BAD.get());
+                output.accept(ModBlocks.RELAIS.get());
+                output.accept(ModBlocks.CIRCUIT_BOARD_LV1.get());
 
             }).build());
 

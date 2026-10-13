@@ -45,7 +45,14 @@ public class ModBlocks {
                         )
                 );
 
+    public static final DeferredItem<Item> ELECTRO_MAGNET_BAD =
+                ITEMS.registerSimpleItem("electro_magnet_bad");
 
+    public static final DeferredItem<Item> RELAIS =
+                ITEMS.registerSimpleItem("relais");
+
+    public static final DeferredItem<Item> CIRCUIT_BOARD_LV1 =
+                ITEMS.registerSimpleItem("circuit_board_lv1");
 
 
 
