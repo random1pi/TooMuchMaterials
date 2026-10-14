@@ -20,6 +20,7 @@ public class ModTabs {
                 output.accept(ModBlocks.ELECTRO_MAGNET_BAD.get());
                 output.accept(ModBlocks.RELAIS.get());
                 output.accept(ModBlocks.CIRCUIT_BOARD_LV1.get());
+                
 
             }).build());
 
@@ -31,6 +32,7 @@ public class ModTabs {
             .icon(() -> ModBlocks.CRAFTING_BLOCK_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(ModBlocks.CRAFTING_BLOCK_ITEM.get());// Add the example item to the tab. For your own tabs, this method is preferred over the event
+                output.accept(ModBlocks.CUTTING_MACHINE_ITEM.get());
 
             }).build());
 

@@ -29,6 +29,9 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.handlers.ServerPayloadHandler;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 @Mod(TooMuchMaterials.MODID)
 public class TooMuchMaterials {
@@ -61,8 +64,9 @@ public class TooMuchMaterials {
         ModBlocks.ITEMS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so tabs get registered
         //CREATIVE_MODE_TABS.register(modEventBus);
-
         ModTabs.CREATIVE_MODE_TABS.register(modEventBus);
+
+        ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
@@ -102,4 +106,5 @@ public class TooMuchMaterials {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
     }
+
 }

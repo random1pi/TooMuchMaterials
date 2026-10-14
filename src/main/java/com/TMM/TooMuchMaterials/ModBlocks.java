@@ -1,6 +1,7 @@
 package com.TMM.TooMuchMaterials;
 
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.TestBlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -28,6 +29,19 @@ public class ModBlocks {
 
     public static final DeferredItem<?> CRAFTING_BLOCK_ITEM =
                 ITEMS.registerSimpleBlockItem(CRAFTING_BLOCK);
+
+   public static final DeferredBlock<BlockCuttingMachine> CUTTING_MACHINE =
+                BLOCKS.register("cutting_machine", registryName -> 
+                        new BlockCuttingMachine(
+                                BlockBehaviour.Properties.of().setId(
+                                        ResourceKey.create(Registries.BLOCK, registryName)
+                                )
+                        )
+
+                );
+
+    public static final DeferredItem<?> CUTTING_MACHINE_ITEM =
+                ITEMS.registerSimpleBlockItem(CUTTING_MACHINE);
         //----------------------------------ITEMS-----------------------------------
     public static final DeferredItem<Item> COPPER_WIRE =
                 ITEMS.registerSimpleItem("copper_wire");
