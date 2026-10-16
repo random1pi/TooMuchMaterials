@@ -8,15 +8,98 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Item;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
 public class EntityCuttingMachine extends BlockEntity{
 
     private int progress = 0;
-    private ItemStack inputItem = ItemStack.EMPTY;
-    private ItemStack outputItem = ItemStack.EMPTY;
+    private int maxProgress = 100;
+
+    public static final int INPUT_SLOTS = 1;
+    public static final int OUTPUT_SLOT = 0;
+    public static final int FIRST_INPUT_SLOT = 1;
+    public static final int TOTAL_SLOTS = 1 + INPUT_SLOTS;
+
+    private static final int DEFAULT_MAX_PROGRESS = 100;
+
+    private final ItemStacksResourceHandler inventory =
+        new ItemStacksResourceHandler(TOTAL_SLOTS) {
+            @Override 
+            protected void onContentsChanged(
+                int index,
+                ItemStack previousContent
+            ) {
+                EntityCuttingMachine.this.setChanged();
+            }
+        };
+
+    private final ResourceHandler<ItemResource> automationInventory =
+        new ResourceHandler<>() {
+            @Override
+            public int size() {
+                return inventory.size();
+            }
+
+            @Override
+            public ItemResource getResource(int index) {
+                return inventory.getResource(index);
+            }
+
+            @Override
+            public long getAmountAsLong(int index) {
+                return inventory.getAmountAsLong(index);
+            }
+
+            @Override
+            public long getCapacityAsLong(int index, ItemResource resource) {
+                return inventory.getCapacityAsLong(index, resource);
+            }
+
+            @Override
+            public boolean isValid(int index, ItemResource resource) {
+                return index == FIRST_INPUT_SLOT && inventory.isValid(index, resource);
+            }
+
+            @Override
+            public int insert(
+                int index,
+                ItemResource resource,
+                int amount,
+                TransactionContext transaction
+            ) {
+                if (index != FIRST_INPUT_SLOT) {
+                    return 0;
+                }
+                return inventory.insert(index, resource, amount, transaction);
+            }
+
+            @Override
+            public int extract(
+                int index,
+                ItemResource resource,
+                int amount,
+                TransactionContext transaction
+            ) {
+                if (index != OUTPUT_SLOT) {
+                    return 0;
+                }
+                return inventory.extract(index, resource, amount, transaction);
+            }
+        };
+
+        public ResourceHandler<ItemResource> getAutomationInventory() {
+            return automationInventory;
+        }
+        
 
 
     public EntityCuttingMachine(
@@ -25,34 +108,51 @@ public class EntityCuttingMachine extends BlockEntity{
     ) {
         super(ModBlockEntities.CUTTING_MACHINE_ENTITY.get(), pos, state);
     }
-    //progress
+
+    public ItemStacksResourceHandler getInventory() {
+        return inventory;
+    }
+
     public int getProgress() {
         return progress;
     }
 
+    public int getMaxProgress() {
+        return maxProgress;
+    }
+    
     public void setProgress(int progress) {
-        this.progress = progress;
+        this.progress = Math.max(0, Math.min(progress, maxProgress));
         setChanged();
     }
-    //input
+
     public ItemStack getInput() {
-        return inputItem;
+        return inventory.getResource(FIRST_INPUT_SLOT)
+            .toStack(inventory.getAmountAsInt(FIRST_INPUT_SLOT));
     }
 
-    public void setInput(ItemStack inputItem) {
-        this.inputItem = inputItem;
-        setChanged();
+    public void setInput(ItemStack stack) {
+        setStack(FIRST_INPUT_SLOT, stack);
     }
 
-    //input
     public ItemStack getOutput() {
-        return outputItem;
+        return inventory.getResource(OUTPUT_SLOT)
+            .toStack(inventory.getAmountAsInt(OUTPUT_SLOT));
     }
 
-    public void setOutput(ItemStack outputItem) {
-        this.outputItem = outputItem;
+    public void setOutput(ItemStack stack) {
+        setStack(OUTPUT_SLOT, stack);
+    }
+
+    private void setStack(int slot, ItemStack stack) {
+        if (stack.isEmpty()) {
+            inventory.set(slot, ItemResource.EMPTY, 0);
+        } else {
+            inventory.set(slot, ItemResource.of(stack), stack.getCount());
+        }
         setChanged();
     }
+
 
     public void sendmessage(String text) {
 
@@ -74,35 +174,61 @@ public class EntityCuttingMachine extends BlockEntity{
         EntityCuttingMachine entity
     ) {
 
-        if ((entity.progress >= 100) && (entity.inputItem.isEmpty() || entity.inputItem == ItemStack.EMPTY)) {
-            entity.progress = 0;
-            entity.sendmessage("hi");
+        ItemStack input = entity.getInput();
+        ItemStack output = entity.getOutput();
+
+        //recipe 1
+        if (!input.isEmpty() && input.is(Items.COPPER_INGOT)) { //recipe1
+
+            boolean canOutput = output.isEmpty() ||
+                (output.is(ModBlocks.COPPER_WIRE)) &&
+                output.getCount() < output.getMaxStackSize();
+
+            if (!canOutput) {
+                return;
+            }
+
+            entity.progress ++;
+
+            if (entity.progress >= entity.getMaxProgress()) {
+                input.shrink(1);
+                entity.setInput(input);
+                if (output.isEmpty()) {
+                    entity.setOutput(new ItemStack(ModBlocks.COPPER_WIRE.get(), 1));
+             } else {
+                    output.grow(1);
+                    entity.setOutput(output);
+                }
+                entity.setProgress(0);
+            }
 
 
-        }
-
-        if ((entity.inputItem.isEmpty())) {
-            entity.progress += 1;
-
-
+        } else {
+            if (entity.progress != 0) {
+                entity.setProgress(0);
+            }
         }
     }
+
 
 
     @Override
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
         output.putInt("Progress", progress);
-        if (!inputItem.isEmpty()) {
-            output.store("InputItem", ItemStack.CODEC, inputItem);
-        }
+        output.putInt("MaxProgress", maxProgress);
+        // Speichert die Slots über den Handler.
+        inventory.serialize(output);
+
     }
 
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
-        progress = input.getIntOr("Progress", progress);
-        inputItem = input.read("InputItem", ItemStack.CODEC).orElse(ItemStack.EMPTY);
+        progress = input.getIntOr("Progress", 0);
+        maxProgress = Math.max(1, input.getIntOr("MaxProgress", DEFAULT_MAX_PROGRESS));
+        inventory.deserialize(input);
+        progress = Math.max(0, Math.min(progress, maxProgress));
     }
     
 }

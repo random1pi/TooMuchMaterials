@@ -68,6 +68,8 @@ public class TooMuchMaterials {
 
         ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
 
+        ModMenus.MENUS.register(modEventBus);
+
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
@@ -75,6 +77,8 @@ public class TooMuchMaterials {
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
+
+        modEventBus.addListener(ModInOutBlock::registerCapabilities);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);

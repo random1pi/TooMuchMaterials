@@ -73,8 +73,24 @@ public class BlockCuttingMachine extends Block implements EntityBlock{
         }
         sendmessage(level, "right clicked");
 
-        net.minecraft.client.Minecraft.getInstance()
-            .gui.setScreen(new UICuttingMachine());
+        if (player instanceof ServerPlayer serverPlayer &&
+            level.getBlockEntity(pos) instanceof EntityCuttingMachine machine
+        ) {
+            serverPlayer.openMenu(
+                new SimpleMenuProvider(
+                    (containerId, inventory, p) ->
+                        new MenuCuttingMachine(
+                            containerId,
+                            inventory,
+                            machine
+                        ),
+                    Component.literal("Cutting Machine")
+                ),
+                buffer -> buffer.writeBlockPos(pos)
+
+            );
+        }
+        
 
         return InteractionResult.SUCCESS; 
     }
