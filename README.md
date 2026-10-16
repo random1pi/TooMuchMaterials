@@ -1,3 +1,8 @@
+#How to run:
+----
+- a) run `.\gradlew build runClient` in the main folder
+- b) copy build\libs\tmm-x.x.x.jar into your mods folder and launch minecraft
+
 #Concept:
 ---------
 -hard start, with expensive crafting recipes -> lots of materials->few outcome
@@ -14,17 +19,22 @@
 | | Crafting Grid | | | Output |
 | :---: | :---: | :---: | :---: | :---: |
 | ❌ | Iron Ingot | ❌ | | |
-| Stick | Stick | Iron Ingot | ➔ |  **Wire Cutter** |
+| Stick | Stick | Iron Ingot | ➔ |  **Wire Cutter** ✅|  
 | ❌ | Stick | ❌ | | |
 
 wire_cutter: 1x copper_ingot -> 1x copper_wire
+
+| | Crafting Shapeless | | Output |
+| :---: | :---: | :---: | :---: |
+| Wire Cutter | Iron Ingot | ➔ |  **Copper Wire** ✅|  
+
 
 4x copper_wire + iron_ingot -> electro_magnet_bad(item)(poorly insulated)
 
 | | Crafting Grid | | | Output |
 | :---: | :---: | :---: | :---: | :---: |
 | ❌ | Copper Wire | ❌ | | |
-| Copper Wire | Iron Ingot | Copper Wire | ➔ |  **Electro Magnet** |
+| Copper Wire | Iron Ingot | Copper Wire | ➔ |  **Electro Magnet** ✅|
 | ❌ | Copper Wire | ❌ | | |
 
 
@@ -33,7 +43,7 @@ wire_cutter: 1x copper_ingot -> 1x copper_wire
 | | Crafting Grid | | | Output |
 | :---: | :---: | :---: | :---: | :---: |
 | ❌ | Iron Ingot | Copper Ingot | | |
-| Copper Wire | Electro Magnet | Copper Wire | ➔ |  **Relais** |
+| Copper Wire | Electro Magnet | Copper Wire | ➔ |  **Relais** ✅|
 | Smooth Stone | Smooth Stone | Smooth Stone | | |
 
 copper_wire + relais + 3x smooth_stone + lever/button -> circuit_board_lv1(item)
@@ -41,9 +51,9 @@ copper_wire + relais + 3x smooth_stone + lever/button -> circuit_board_lv1(item)
 | | Crafting Grid | | | Output |
 | :---: | :---: | :---: | :---: | :---: |
 | Copper Wire | Copper Wire | Copper Wire | | |
-| Button/Lever | Relais | Copper Wire | ➔ |  **Circuit Board Lv.1** |
+| Button/Lever | Relais | Copper Wire | ➔ |  **Circuit Board Lv.1** ✅|
 | Smooth Stone | Smooth Stone | Smooth Stone | | |
 
-4x iron_blocks + wire_cutter + circuit_boardlv1 +  2x hopper -> crafting_block/cutting_machine (block) (in dev)
+4x iron_blocks + wire_cutter + circuit_boardl_v1 +  2x hopper -> crafting_block/cutting_machine (block) (in dev)
 
 
