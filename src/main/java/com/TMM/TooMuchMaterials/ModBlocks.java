@@ -33,15 +33,47 @@ public class ModBlocks {
    public static final DeferredBlock<BlockCuttingMachine> CUTTING_MACHINE =
                 BLOCKS.register("cutting_machine", registryName -> 
                         new BlockCuttingMachine(
-                                BlockBehaviour.Properties.of().setId(
-                                        ResourceKey.create(Registries.BLOCK, registryName)
-                                )
+                                BlockBehaviour.Properties.of()
+                                        .setId(
+                                                ResourceKey.create(Registries.BLOCK, registryName)
+                                        )
+                                        .strength(3.0f, 6.0f)
                         )
 
                 );
 
     public static final DeferredItem<?> CUTTING_MACHINE_ITEM =
                 ITEMS.registerSimpleBlockItem(CUTTING_MACHINE);
+
+   public static final DeferredBlock<BlockCableBlock> CABLE_BLOCK =
+                BLOCKS.register("cable_block", registryName -> 
+                        new BlockCableBlock(
+                                BlockBehaviour.Properties.of()
+                                        .setId(
+                                                ResourceKey.create(Registries.BLOCK, registryName)
+                                        )
+                                        .strength(3.0f, 6.0f)
+                        )
+
+                );
+
+    public static final DeferredItem<?> CABLE_BLOCK_ITEM =
+                ITEMS.registerSimpleBlockItem(CABLE_BLOCK);
+
+   public static final DeferredBlock<BlockGenerator> GENERATOR =
+                BLOCKS.register("generator", registryName -> 
+                        new BlockGenerator(
+                                BlockBehaviour.Properties.of()
+                                        .setId(
+                                                ResourceKey.create(Registries.BLOCK, registryName)
+                                        )
+                                        .strength(3.0f, 6.0f)
+                        )
+
+                );
+
+    public static final DeferredItem<?> GENERATOR_ITEM =
+                ITEMS.registerSimpleBlockItem(GENERATOR);
         //----------------------------------ITEMS-----------------------------------
     public static final DeferredItem<Item> COPPER_WIRE =
                 ITEMS.registerSimpleItem("copper_wire");

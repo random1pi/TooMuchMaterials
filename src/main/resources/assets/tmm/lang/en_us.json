@@ -4,6 +4,8 @@
   "itemGroup.tool": "Tools",
   "block.tmm.crafting_block": "Crafting Block",
   "block.tmm.cutting_machine": "Cutting Machine",
+  "block.tmm.cable_block": "Cable",
+  "block.tmm.generator": "Generator",
   "item.tmm.copper_wire": "Copper Wire",
   "item.tmm.wire_cutter": "Wire Cutter",
   "item.tmm.electro_magnet_bad": "Electro Magnet (Poorly insulated)",

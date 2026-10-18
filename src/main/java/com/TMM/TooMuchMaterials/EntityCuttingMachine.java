@@ -178,6 +178,8 @@ public class EntityCuttingMachine extends BlockEntity{
         ItemStack output = entity.getOutput();
 
         //recipe 1
+        if (level.isClientSide()) {return;}
+
         if (!input.isEmpty() && input.is(Items.COPPER_INGOT)) { //recipe1
 
             boolean canOutput = output.isEmpty() ||

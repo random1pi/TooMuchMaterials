@@ -17,5 +17,13 @@ public class Client {
                 ModMenus.CUTTING_MENU.get(),
                 UICuttingMachine::new
         );
+
+        event.register(
+                ModMenus.GENERATOR_MENU.get(),
+                UIGenerator::new
+        );
+        
     }
+
+
 }

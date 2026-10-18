@@ -13,5 +13,10 @@ public class ModInOutBlock {
                 ModBlockEntities.CUTTING_MACHINE_ENTITY.get(),
                 (machine, side) -> machine.getAutomationInventory()
         );
+        event.registerBlockEntity(
+                Capabilities.Item.BLOCK,
+                ModBlockEntities.GENERATOR_ENTITY.get(),
+                (machine, side) -> machine.getAutomationInventory()
+        );
     }
 }

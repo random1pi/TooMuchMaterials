@@ -33,6 +33,8 @@ public class ModTabs {
             .displayItems((parameters, output) -> {
                 output.accept(ModBlocks.CRAFTING_BLOCK_ITEM.get());// Add the example item to the tab. For your own tabs, this method is preferred over the event
                 output.accept(ModBlocks.CUTTING_MACHINE_ITEM.get());
+                output.accept(ModBlocks.CABLE_BLOCK_ITEM.get());
+                output.accept(ModBlocks.GENERATOR_ITEM.get());
 
             }).build());
 

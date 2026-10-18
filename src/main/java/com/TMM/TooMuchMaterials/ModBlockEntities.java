@@ -20,4 +20,24 @@ public static final Supplier<BlockEntityType<EntityCuttingMachine>>
             )
         );
 
+public static final Supplier<BlockEntityType<EntityCableBlock>>
+        CABLE_BLOCK_ENTITY = BLOCK_ENTITIES.register(
+            "cable_block_entity",
+            () -> new BlockEntityType<>(
+                EntityCableBlock::new,
+                false,
+                ModBlocks.CABLE_BLOCK.get()
+            )
+        );
+
+public static final Supplier<BlockEntityType<EntityGenerator>>
+        GENERATOR_ENTITY = BLOCK_ENTITIES.register(
+            "generator_entity",
+            () -> new BlockEntityType<>(
+                EntityGenerator::new,
+                false,
+                ModBlocks.GENERATOR.get()
+            )
+        );
+
 }

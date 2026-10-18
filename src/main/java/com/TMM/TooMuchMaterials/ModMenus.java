@@ -20,4 +20,11 @@ public class ModMenus {
                     "cutting_menu",
                     () -> IMenuTypeExtension.create(MenuCuttingMachine::new)
             );
+
+    public static final Supplier<MenuType<MenuGenerator>> GENERATOR_MENU =
+            MENUS.register(
+                    "generator_menu",
+                    () -> IMenuTypeExtension.create(MenuGenerator::new)
+            );
+
 }
