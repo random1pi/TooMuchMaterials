@@ -143,13 +143,13 @@ public class MenuGenerator extends AbstractContainerMenu {
         ItemStack original = stack.copy();
 
         // Maschinen-Slots: 0 bis 5
-        if (index < 6) {
-            if (!moveItemStackTo(stack, 6, slots.size(), true)) {
+        if (index == 0) {
+            if (!moveItemStackTo(stack, 1, slots.size(), true)) {
                 return ItemStack.EMPTY;
             }
         } else {
             // Spielerinventar -> ausschließlich Input-Slots
-            if (!moveItemStackTo(stack, 1, 6, false)) {
+            if (!moveItemStackTo(stack, 0, 1, false)) {
                 return ItemStack.EMPTY;
             }
         }

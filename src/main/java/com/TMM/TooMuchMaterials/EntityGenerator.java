@@ -14,6 +14,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.Containers;
 import net.minecraft.world.item.Item;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.neoforged.neoforge.transfer.ResourceHandler;
@@ -33,11 +34,11 @@ public class EntityGenerator extends BlockEntity{
     public static final int INPUT_SLOTS = 1;
     public static final int FIRST_INPUT_SLOT = 0;
 
-    private static final int DEFAULT_MAX_PROGRESS = 100;
+    private static final int DEFAULT_MAX_PROGRESS = 1000;
     private static final int MAX_FUEL_TIME = 10000;
 
     private int progress = 0;
-    private int maxProgress = 100;
+    private int maxProgress = DEFAULT_MAX_PROGRESS;
     private int fuelTime = 0;
 
     private long transfer_north = 0;
@@ -57,6 +58,24 @@ public class EntityGenerator extends BlockEntity{
                 EntityGenerator.this.setChanged();
             }
         };
+
+    @Override 
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {//drops content
+        super.preRemoveSideEffects(pos, state);
+        if (level != null && !level.isClientSide()) {
+            Containers.dropItemStack(
+                level,
+                pos.getX(),
+                pos.getY(),
+                pos.getZ(),
+                inventory.getResource(FIRST_INPUT_SLOT)
+                    .toStack(inventory.getAmountAsInt(FIRST_INPUT_SLOT))
+            );
+            setInput(ItemStack.EMPTY);
+
+        }
+    }
+
 
     //hopper tech
     private final ResourceHandler<ItemResource> automationInventory =
@@ -273,10 +292,10 @@ public class EntityGenerator extends BlockEntity{
 
         if (level.isClientSide()) {return;}
 
-        if (!input.isEmpty() && input.is(Items.COAL) && fuelTime == 0) { //burn coal -> 200 ticks burn time
+        if (!input.isEmpty() && input.is(Items.COAL) && fuelTime == 0) { //burn coal -> 400 ticks burn time
             input.shrink(1);
             entity.setInput(input);
-            entity.setFuelTime(200);
+            entity.setFuelTime(400);
         }
         if (fuelTime > 0) {//decrease burn time
             fuelTime --;
@@ -289,7 +308,7 @@ public class EntityGenerator extends BlockEntity{
         if (progress >= DEFAULT_MAX_PROGRESS) {//generate power every xx ticks
             progress = 0;
             //push energy
-            entity.addEnergy(512);
+            entity.addEnergy(500);
             entity.setProgress(progress);
         }
 
@@ -340,10 +359,10 @@ public class EntityGenerator extends BlockEntity{
                             entity.setTransferWest(targetEnergy - neighborEnergy);
                         }
                         if (direction == direction.UP) {
-                            entity.setTransferDown(targetEnergy - neighborEnergy);
+                            entity.setTransferUp(targetEnergy - neighborEnergy);
                         }
                         if (direction == direction.DOWN) {
-                            entity.setTransferUp(targetEnergy - neighborEnergy);
+                            entity.setTransferDown(targetEnergy - neighborEnergy);
                         }
                     }
                 }
@@ -419,8 +438,7 @@ public class EntityGenerator extends BlockEntity{
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
-        long savedEnergy = 
-            Math.max(0, Math.min(input.getLongOr("Energy",0L), CAPACITY ));
+        long savedEnergy = Math.max(0, Math.min(input.getLongOr("Energy",0L), CAPACITY ));
         try (var transaction = Transaction.openRoot()) {
             energy.insert((int) savedEnergy, transaction);
             transaction.commit();

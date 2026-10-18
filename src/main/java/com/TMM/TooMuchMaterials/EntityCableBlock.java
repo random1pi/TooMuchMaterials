@@ -191,10 +191,10 @@ public class EntityCableBlock extends BlockEntity{
                                 entity.setTransferWest(targetEnergy - neighborEnergy);
                             }
                             if (direction == direction.UP) {
-                                entity.setTransferDown(targetEnergy - neighborEnergy);
+                                entity.setTransferUp(targetEnergy - neighborEnergy);
                             }
                             if (direction == direction.DOWN) {
-                                entity.setTransferUp(targetEnergy - neighborEnergy);
+                                entity.setTransferDown(targetEnergy - neighborEnergy);
                             }
                         }
                     }

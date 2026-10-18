@@ -14,10 +14,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.Containers;
 import net.minecraft.world.item.Item;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
+import net.minecraft.core.Direction;
 
 public class EntityCuttingMachine extends BlockEntity{
 
@@ -41,6 +43,23 @@ public class EntityCuttingMachine extends BlockEntity{
                 EntityCuttingMachine.this.setChanged();
             }
         };
+
+    @Override 
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {//drops content
+        super.preRemoveSideEffects(pos, state);
+        if (level != null && !level.isClientSide()) {
+            Containers.dropItemStack(
+                level,
+                pos.getX(),
+                pos.getY(),
+                pos.getZ(),
+                inventory.getResource(FIRST_INPUT_SLOT)
+                    .toStack(inventory.getAmountAsInt(FIRST_INPUT_SLOT))
+            );
+            setInput(ItemStack.EMPTY);
+
+        }
+    }
 
     private final ResourceHandler<ItemResource> automationInventory =
         new ResourceHandler<>() {
@@ -190,18 +209,54 @@ public class EntityCuttingMachine extends BlockEntity{
                 return;
             }
 
-            entity.progress ++;
+            long totalEnergy = 0;
+            long energyCost = 100;//crafting cost
+            for (Direction direction : Direction.values()) {//check for energy
+                    
+                BlockPos neighborPos = pos.relative(direction);
+                BlockEntity neighbor = level.getBlockEntity(neighborPos);
+                
+
+                if (neighbor instanceof EntityCableBlock cable) {
+                    totalEnergy += cable.getEnergy();
+                }
+            }
+            if ((totalEnergy >= energyCost)) {//if energy there -> progress
+                entity.progress ++;
+            }
 
             if (entity.progress >= entity.getMaxProgress()) {
-                input.shrink(1);
+                input.shrink(1);//apply recipe
                 entity.setInput(input);
                 if (output.isEmpty()) {
                     entity.setOutput(new ItemStack(ModBlocks.COPPER_WIRE.get(), 1));
-             } else {
+                } else {
                     output.grow(1);
                     entity.setOutput(output);
                 }
                 entity.setProgress(0);
+
+                for (Direction direction : Direction.values()) {//check for energy
+                    
+                    BlockPos neighborPos = pos.relative(direction);
+                    BlockEntity neighbor = level.getBlockEntity(neighborPos);
+                
+
+                        if (neighbor instanceof EntityCableBlock cable) {//take from cable
+                            long cableEnergy = cable.getEnergy();
+                            if (cableEnergy >= energyCost) {
+                                cable.takeEnergy(energyCost);
+                                energyCost = 0;
+                            } else {
+                                cable.takeEnergy(cableEnergy);
+                                energyCost -= cableEnergy;
+                            }
+
+                            
+
+                        }
+                    }
+                
             }
 
 

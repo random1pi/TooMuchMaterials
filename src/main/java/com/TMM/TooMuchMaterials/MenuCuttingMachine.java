@@ -127,7 +127,7 @@ public class MenuCuttingMachine extends AbstractContainerMenu {
         }
 
     super.broadcastChanges();
-}
+    }
 
     @Override
     public boolean stillValid(Player player) {
@@ -156,13 +156,13 @@ public class MenuCuttingMachine extends AbstractContainerMenu {
         ItemStack original = stack.copy();
 
         // Maschinen-Slots: 0 bis 5
-        if (index < 6) {
-            if (!moveItemStackTo(stack, 6, slots.size(), true)) {
+        if (index < 2) {
+            if (!moveItemStackTo(stack, 2, slots.size(), true)) {//from here
                 return ItemStack.EMPTY;
             }
         } else {
-            // Spielerinventar -> ausschließlich Input-Slots
-            if (!moveItemStackTo(stack, 1, 6, false)) {
+            // player inv -> only input slot
+            if (!moveItemStackTo(stack, 1, 2, false)) {//to here
                 return ItemStack.EMPTY;
             }
         }
