@@ -1,0 +1,18 @@
+{
+  "type": "tmm:cutting_machine_shaped",
+  "pattern": [
+    "IHI",
+    " WC",
+    "IHI"
+  ],
+  "key": {
+    "I": "minecraft:iron_block",
+    "H": "minecraft:hopper",
+    "W": "tmm:wire_cutter",
+    "C": "tmm:circuit_board_lv1"
+  },
+  "result": {
+    "id": "tmm:cutting_machine",
+    "count": 1
+  }
+}

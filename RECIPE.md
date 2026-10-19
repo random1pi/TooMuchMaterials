@@ -20,3 +20,10 @@
 | :---: | :---: | :---: | :---: |
 | Redstone Block | High-Temperature Pressure Vessel | **Redstone Vapor (Pressure Vessel)** | ❌ |
 | Soulssand |High-Temperature  Pressure Vessel | **Soulsand Vapor (Pressure Vessel)** | ❌ |
+
+### Generator
+
+| Input | Burn Time | Done? |
+| :---: | :---: | :---: |
+| 1000 Ticks | **500 Wh** |✅|
+| Coal | **400 Ticks** |✅|

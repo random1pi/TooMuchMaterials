@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " TE",
+    "HCW",
+    "FBF"
+  ],
+  "key": {
+    "F": "minecraft:furnace",
+    "H": "minecraft:hopper",
+    "T": "tmm:turbine",
+    "E": "tmm:electro_motor",
+    "W": "tmm:copper_wire",
+    "B": "minecraft:copper_block",
+    "C": "minecraft:cauldron"
+  },
+  "result": {
+    "id": "tmm:generator",
+    "count": 1
+  }
+}

@@ -27,13 +27,14 @@
 Objectives:
 - Make level 1 circuit boards
 - get your 1st cutting machine to passively produce wires, without wasting iron for new wire cutters
+- generate power
 
 ### 2x iron_ingot + 3x sticks -> wire_cutter(item)
 
 | | Crafting Grid | | | Output |
 | :---: | :---: | :---: | :---: | :---: |
 | ❌ | Iron Ingot | ❌ | | |
-| Stick | Stick | Iron Ingot | ➔ |  **Wire Cutter** |  
+| Stick | Stick | Iron Ingot | ➔ |  **Wire Cutter** ✅|  
 | ❌ | Stick | ❌ | | |
 
 ### wire_cutter: 1x copper_ingot -> 1x copper_wire
@@ -68,16 +69,37 @@ Objectives:
 | Button/Lever | Relais | Copper Wire | ➔ |  **Circuit Board Lv.1** ✅|
 | Smooth Stone | Smooth Stone | Smooth Stone | | |
 
-### 4x iron_blocks + wire_cutter + circuit_boardl_v1 +  2x hopper -> crafting_block/cutting_machine (block) (in dev)
+### Iron Ingot + Iron Blocl -> turbine (item)
+
+| | Crafting Grid | | | Output |
+| :---: | :---: | :---: | :---: | :---: |
+| ❌ | Iron Ingot | ❌ | | |
+| Iron Ingot | Iron Block | Iron Ingot | ➔ |  **Turbine** ✅|
+| ❌ | Iron Ingot | ❌ | | |
+
+### electro motor (item)
+
+| | Crafting Grid | | | Output |
+| :---: | :---: | :---: | :---: | :---: |
+| ❌ | Iron Ingot | ❌ | | |
+| Iron Ingot | Electro Magnet | Iron Ingot | ➔ |  **Electro Motor** ✅|
+| ❌ | Iron Ingot | Circuit Board Lv.1 | | |
+
+### generator (block)
+
+| | Crafting Grid | | | Output |
+| :---: | :---: | :---: | :---: | :---: |
+| ❌ | Turbine | Electro Motor | | |
+| Hopper | Cauldron | Copper Wire | ➔ |  **Generator** ✅|
+| Furnace | Copper Block | Furnace | | |
+
+### 4x iron_blocks + wire_cutter + circuit_boardl_v1 +  2x hopper -> cutting_machine (block)
 
 | | Crafting Grid | | | Output |
 | :---: | :---: | :---: | :---: | :---: |
 | Iron Block | Hopper | Iron Block | | |
-| ❌ | Wire Cutter | Circuit Board Lv.1 | ➔ |  **Circuit Board Lv.1** |
+| ❌ | Wire Cutter | Circuit Board Lv.1 | ➔ |  **Cutting Machine** |
 | Iron Block | Hopper | Iron Block | | |
-
-### generator lv.1
-
 
 ## Early Game phase 2
 

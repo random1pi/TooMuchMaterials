@@ -184,6 +184,41 @@ public class EntityCuttingMachine extends BlockEntity{
         }
 
     }
+    
+    public long getPowerFromNeighbors(Level level, BlockPos pos) {
+        long totalEnergy = 0;
+        for (Direction direction : Direction.values()) {//check for energy
+                    
+            BlockPos neighborPos = pos.relative(direction);
+            BlockEntity neighbor = level.getBlockEntity(neighborPos);
+                
+
+            if (neighbor instanceof EntityCableBlock cable) {
+                totalEnergy += cable.getEnergy();
+            }
+        }
+        return totalEnergy;
+    }
+
+    public void takePowerFromNeighbors(Level level, BlockPos pos, long energyCost) {
+        for (Direction direction : Direction.values()) {
+                    
+            BlockPos neighborPos = pos.relative(direction);
+            BlockEntity neighbor = level.getBlockEntity(neighborPos);
+                
+            if (neighbor instanceof EntityCableBlock cable) {//take from cable
+                long cableEnergy = cable.getEnergy();
+                if (cableEnergy >= energyCost) {
+                    cable.takeEnergy(energyCost);
+                    energyCost = 0;
+                } else {
+                    cable.takeEnergy(cableEnergy);
+                    energyCost -= cableEnergy;
+                }
+            }
+        }
+    }
+
 
     //Tick-----------------------
     public static void tick(
@@ -209,20 +244,15 @@ public class EntityCuttingMachine extends BlockEntity{
                 return;
             }
 
-            long totalEnergy = 0;
-            long energyCost = 100;//crafting cost
-            for (Direction direction : Direction.values()) {//check for energy
-                    
-                BlockPos neighborPos = pos.relative(direction);
-                BlockEntity neighbor = level.getBlockEntity(neighborPos);
-                
+            //---------------------------------------
+            long energyCost = 1;//crafting cost
+            //---------------------------------------
 
-                if (neighbor instanceof EntityCableBlock cable) {
-                    totalEnergy += cable.getEnergy();
-                }
-            }
-            if ((totalEnergy >= energyCost)) {//if energy there -> progress
+            long totalEnergy = entity.getPowerFromNeighbors(level, pos);
+
+            if ((totalEnergy >= energyCost)) {//if energy there -> progress + take energy
                 entity.progress ++;
+                entity.takePowerFromNeighbors(level, pos, energyCost);
             }
 
             if (entity.progress >= entity.getMaxProgress()) {
@@ -236,26 +266,7 @@ public class EntityCuttingMachine extends BlockEntity{
                 }
                 entity.setProgress(0);
 
-                for (Direction direction : Direction.values()) {//check for energy
-                    
-                    BlockPos neighborPos = pos.relative(direction);
-                    BlockEntity neighbor = level.getBlockEntity(neighborPos);
-                
-
-                        if (neighbor instanceof EntityCableBlock cable) {//take from cable
-                            long cableEnergy = cable.getEnergy();
-                            if (cableEnergy >= energyCost) {
-                                cable.takeEnergy(energyCost);
-                                energyCost = 0;
-                            } else {
-                                cable.takeEnergy(cableEnergy);
-                                energyCost -= cableEnergy;
-                            }
-
-                            
-
-                        }
-                    }
+                //entity.takePowerFromNeighbors(level, pos, energyCost);
                 
             }
 

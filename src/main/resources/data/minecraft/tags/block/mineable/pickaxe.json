@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "tmm:generator",
+    "tmm:cutting_machine",
+    "tmm:cable_block"
+  ]
+}

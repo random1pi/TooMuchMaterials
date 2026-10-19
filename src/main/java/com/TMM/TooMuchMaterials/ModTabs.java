@@ -20,6 +20,8 @@ public class ModTabs {
                 output.accept(ModBlocks.ELECTRO_MAGNET_BAD.get());
                 output.accept(ModBlocks.RELAIS.get());
                 output.accept(ModBlocks.CIRCUIT_BOARD_LV1.get());
+                output.accept(ModBlocks.TURBINE.get());
+                output.accept(ModBlocks.ELECTRO_MOTOR.get());
                 
 
             }).build());
